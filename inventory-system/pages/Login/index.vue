@@ -1,6 +1,5 @@
 <template>
   <div class="w-full mt-28">
-    <!-- <Navebar :title="title" :links="links" /> -->
     <form @submit.prevent="handleLogin"
       class="flex flex-col gap-1 bg-white shadow-lg shadow-gray-300 m-auto items-center justify-center w-1/2 h-1/2 rounded-lg p-10"
     >
@@ -43,9 +42,11 @@
 
 <script setup>
 import axios from 'axios'
+import {useRouter} from 'vue-router'
 const email = ref("");
 const password = ref("");
 const errmessage = ref("");
+const router = useRouter();
 
 const handleLogin = async () => {
   const data = {
@@ -53,12 +54,13 @@ const handleLogin = async () => {
     password: password.value,
   };
   await axios
-    .post("http://10.4.192.43:8001/api/Accounts/Login", data)
+    .post("http://10.4.192.40:8001/api/Accounts/Login", data)
     .then((res) => {
       console.log(res);
-
-      // localStorage.setItem("token", res.data.token);
-      router.push({ path: "/product" });
+      if(res.status === 200){
+        localStorage.setItem("token", res.data);
+        router.push({ path: "/product" });
+      }
     })
     .catch((err) => {
       console.log(err);

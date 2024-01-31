@@ -1,8 +1,7 @@
 <template>
   <div class="w-full mt-28">
-    <Navbar />
     <div
-      class="flex flex-col gap-1 bg-gray-100 shadow-lg shadow-gray-200 m-auto items-center w-1/2 h-fit rounded-lg p-10"
+      class="flex flex-col gap-1 bg-white shadow-lg shadow-gray-200 m-auto items-center w-1/2 h-fit rounded-lg p-10"
     >
       <h1 class="font-bold">Sign-up</h1>
       <div class="w-3/4 my-2 flex flex-col gap-3 items-start">
@@ -39,12 +38,16 @@
       >
         Register
       </button>
-      <p>Have acount <NuxtLink to="/login">Login</NuxtLink> </p>
+      <p>Have acount <NuxtLink to="/login">Login</NuxtLink></p>
     </div>
   </div>
 </template>
 
 <script setup>
+import axios from 'axios'
+import {useRouter} from 'vue-router'
+
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 const cpassword = ref("");
@@ -54,10 +57,10 @@ const handleRegister = async () => {
   const data = {
     email: email.value,
     password: password.value,
-    confirmPassword: cpassword.value
+    confirmPassword: cpassword.value,
   };
   await axios
-    .post("http://10.4.114.206:8001/api/Accounts/Register", data)
+    .post("http://10.4.192.40:8001/api/Accounts/Register", data)
     .then((res) => {
       console.log(res);
       router.push({ path: "/login" });

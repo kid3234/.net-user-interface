@@ -1,5 +1,3 @@
-import type { Product } from '#build/components'; import type { Product } from
-'#build/components';
 <template>
   <div
     class="w-4/5 text-left h-fit bg-white hover:shadow-xl hover:shadow-gray-300 border-2 hover:border-none text-black flex flex-col items-start pl-5 py-10 gap-5"
@@ -26,14 +24,14 @@ import type { Product } from '#build/components'; import type { Product } from
 
     <div class="flex justify-between items-center pr-2 w-full">
       <button
-        @click="deleteproduct"
+      @click="deleteproduct(product?.id)"
         class="p-2 bg-[#d3af35] text-white rounded-lg cursor-pointer border-none"
       >
         Delete
       </button>
       <button
         class="p-2 bg-gray-800 text-white rounded-lg cursor-pointer border-none"
-        @click="deleteproduct(Product?.id)"
+        @click="toggleshowup"
       >
         Update
       </button>
@@ -44,6 +42,7 @@ import type { Product } from '#build/components'; import type { Product } from
 
 <script setup>
 import { Icon } from "@iconify/vue";
+import axios from 'axios'
 const props = defineProps(["product"]);
 const showup = ref(false);
 
@@ -56,21 +55,22 @@ const toggleshowup = () => {
   showup.value = !showup.value;
 };
 
+
 const deleteproduct = async (id) => {
   const token = localStorage.getItem("token");
   await axios
-    .delete(`http://10.4.114.206:8001/api/Product/${id}`, {
+    .delete(`http://10.4.192.40:8001/api/Product/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
       console.log(res);
+      window.location.reload()
     })
     .catch((err) => {
       console.log(err);
     });
 };
 </script>
-
 <style lang="scss" scoped></style>

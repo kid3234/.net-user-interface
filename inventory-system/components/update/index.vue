@@ -33,7 +33,7 @@
               v-model="category"
               class="p-2 w-full rounded-lg border-none bg-blue-100"
               id="total"
-              type="number"
+              type="text"
               required
             />
           </div>
@@ -63,7 +63,7 @@
               v-model="supplier"
               class="p-2 w-full rounded-lg border-none bg-blue-100"
               id="maximum"
-              type="number"
+              type="text"
               required
             />
           </div>
@@ -108,24 +108,26 @@ const category = ref(props.product?.category);
 const price = ref(props.product?.price);
 const quantity = ref(props.product?.quantity);
 const supplier = ref(props.product?.supplier);
+
 const updateproduct = async () => {
   const data = {
-    pcode: pcode.toValue,
-    category: category.toValue,
-    supplier: supplier,
-    price: price,
-    productName: productName,
+    pcode: pcode.value,
+    category: category.value,
+    supplier: supplier.value,
+    price: price.value,
+    productName: productName.value,
     quantity: quantity.value,
   };
   const token = localStorage.getItem("token");
   await axios
-    .put(`http://10.4.114.206:8001/api/Product/${props.product.id}`, data, {
+    .put(`http://10.4.192.40:8001/api/Product/${props.product.id}`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
       console.log(res);
+      window.location.reload()
     })
     .catch((err) => {
       console.log(err);
